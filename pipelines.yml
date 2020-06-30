@@ -4,6 +4,12 @@ resources:
       configuration:
         key1: value1
         key2: value2
+
+    - name: dummy_resource_1
+      type: PropertyBag
+      configuration:
+        key1: value1
+        key2: value2
 pipelines:
   - name: Run_State_Example_6
     steps:
@@ -54,6 +60,8 @@ pipelines:
       - name: step_e
         type: Bash
         configuration:
+          outputResources:
+            - name: dummy_resource_1
           inputResources:
             - name: dummy_resource
         execution:
@@ -63,6 +71,7 @@ pipelines:
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
           onExecute:
             - add_run_files ./files state
+            - write_output dummy_resource_1 "${step_name}_stepletId=${steplet_id}"
           onComplete:
             - echo "${step_name} Completed"
 
@@ -70,6 +79,8 @@ pipelines:
       - name: step_f
         type: Bash
         configuration:
+          outputResources:
+            - name: dummy_resource_1
           inputResources:
             - name: dummy_resource
         execution:
@@ -77,6 +88,7 @@ pipelines:
             - restore_run_files state ./files
             - filename="${step_name}_${steplet_number}"
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+            - write_output dummy_resource_1 "${step_name}_stepletId=${steplet_id}"
           onExecute:
             - add_run_files ./files state
           onComplete:
@@ -86,9 +98,8 @@ pipelines:
       - name: step_h
         type: Bash
         configuration:
-          inputSteps:
-            - name: step_f
-            - name: step_e
+          inputResources:
+            - name: dummy_resource_1
         execution:
           onStart:
             - restore_run_files state ./files

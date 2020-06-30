@@ -74,7 +74,24 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
+            - name: step_c
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"
+
+
+      - name: step_f
+        type: Bash
+        configuration:
+          inputSteps:
             - name: step_d
+            - name: step_e
         execution:
           onStart:
             - restore_run_files state ./files

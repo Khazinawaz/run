@@ -28,6 +28,7 @@ pipelines:
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
           onExecute:
             - add_run_files ./files state
+            - write_output dummy_resource "${step_name}_stepletId=${steplet_id}"
           onComplete:
             - echo "${step_name} Completed"
 
@@ -46,6 +47,7 @@ pipelines:
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
           onExecute:
             - add_run_files ./files state
+            - write_output dummy_resource "${step_name}_stepletId=${steplet_id}"
           onComplete:
             - echo "${step_name} Completed"
 

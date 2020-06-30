@@ -1,8 +1,17 @@
 pipelines:
   - name: Run_State_Example_2
     steps:
+      - name: start
+        type: Bash
+        execution:
+          onExecute:
+            - echo "Start..."
+
       - name: step_a
         type: Bash
+        configuration:
+          inputSteps:
+            - name: start
         execution:
           onStart:
             - sleep 10
@@ -16,6 +25,9 @@ pipelines:
 
       - name: step_b
         type: Bash
+        configuration:
+          inputSteps:
+            - name: start
         execution:
           onStart:
             - sleep 10

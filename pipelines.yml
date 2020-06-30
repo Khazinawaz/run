@@ -1,0 +1,74 @@
+pipelines:
+  - name: Run_State_Example_1
+    steps:
+      - name: step_a
+        type: Bash
+        execution:
+          onStart:
+            - mkdir -p files
+            - filename="${step_name}_${steplet_number}
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"
+
+      - name: step_b
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_a
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"
+
+      - name: step_c
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_b
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"
+
+      - name: step_d
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_c
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"
+
+      - name: step_e
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_d
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"

@@ -5,6 +5,7 @@ pipelines:
         type: Bash
         execution:
           onStart:
+            - sleep 10
             - mkdir -p files
             - filename="${step_name}_${steplet_number}"
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
@@ -15,11 +16,9 @@ pipelines:
 
       - name: step_b
         type: Bash
-        configuration:
-          inputSteps:
-            - name: step_a
         execution:
           onStart:
+            - sleep 10
             - restore_run_files state ./files
             - filename="${step_name}_${steplet_number}"
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename

@@ -28,6 +28,7 @@ pipelines:
         configuration:
           inputSteps:
             - name: start
+            - name: step_a
         execution:
           onStart:
             - sleep 10
@@ -45,36 +46,6 @@ pipelines:
           inputSteps:
             - name: step_a
             - name: step_b
-        execution:
-          onStart:
-            - restore_run_files state ./files
-            - filename="${step_name}_${steplet_number}"
-            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-          onExecute:
-            - add_run_files ./files state
-          onComplete:
-            - echo "${step_name} Completed"
-
-      - name: step_d
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_c
-        execution:
-          onStart:
-            - restore_run_files state ./files
-            - filename="${step_name}_${steplet_number}"
-            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-          onExecute:
-            - add_run_files ./files state
-          onComplete:
-            - echo "${step_name} Completed"
-
-      - name: step_e
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_d
         execution:
           onStart:
             - restore_run_files state ./files

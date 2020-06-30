@@ -1,5 +1,11 @@
+resources:
+    - name: dummy_resource
+      type: PropertyBag
+      configuration:
+        key1: value1
+        key2: value2
 pipelines:
-  - name: Run_State_Example_5
+  - name: Run_State_Example_6
     steps:
       - name: start
         type: Bash
@@ -10,6 +16,8 @@ pipelines:
       - name: step_a
         type: Bash
         configuration:
+          outputResources:
+            - name: dummy_resource
           inputSteps:
             - name: start
         execution:
@@ -28,6 +36,8 @@ pipelines:
         configuration:
           inputSteps:
             - name: start
+          outputResources:
+            - name: dummy_resource
         execution:
           onStart:
             - sleep 10
@@ -39,39 +49,11 @@ pipelines:
           onComplete:
             - echo "${step_name} Completed"
 
-      - name: step_c
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_a
-        execution:
-          onStart:
-            - restore_run_files state ./files
-            - filename="${step_name}_${steplet_number}"
-            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-          onExecute:
-            - add_run_files ./files state
-          onComplete:
-            - echo "${step_name} Completed"
-
-      - name: step_d
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_b
-        execution:
-          onStart:
-            - restore_run_files state ./files
-            - filename="${step_name}_${steplet_number}"
-            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-          onExecute:
-            - add_run_files ./files state
-          onComplete:
-            - echo "${step_name} Completed"
-
       - name: step_e
         type: Bash
         configuration:
+          inputResources:
+            - name: dummy_resource
           inputSteps:
             - name: step_c
         execution:
@@ -88,6 +70,8 @@ pipelines:
       - name: step_f
         type: Bash
         configuration:
+          inputResources:
+            - name: dummy_resource
           inputSteps:
             - name: step_d
         execution:

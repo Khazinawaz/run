@@ -56,8 +56,6 @@ pipelines:
         configuration:
           inputResources:
             - name: dummy_resource
-          inputSteps:
-            - name: step_c
         execution:
           onStart:
             - restore_run_files state ./files
@@ -74,8 +72,6 @@ pipelines:
         configuration:
           inputResources:
             - name: dummy_resource
-          inputSteps:
-            - name: step_d
         execution:
           onStart:
             - restore_run_files state ./files

@@ -11,7 +11,7 @@ resources:
         key1: value1
         key2: value2
 pipelines:
-  - name: Run_State_Example_6
+  - name: Run_State_Example_7
     steps:
       - name: start
         type: Bash

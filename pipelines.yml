@@ -31,7 +31,7 @@ pipelines:
         execution:
           onStart:
             - sleep 10
-            - restore_run_files state ./files
+            - mkdir -p files
             - filename="${step_name}_${steplet_number}"
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
           onExecute:

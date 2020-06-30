@@ -1,5 +1,5 @@
 pipelines:
-  - name: Run_State_Example_3
+  - name: Run_State_Example_4
     steps:
       - name: start
         type: Bash
@@ -43,7 +43,6 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
-            - name: step_a
             - name: step_b
         execution:
           onStart:
@@ -59,7 +58,7 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
-            - name: step_c
+            - name: step_b
         execution:
           onStart:
             - restore_run_files state ./files
@@ -90,7 +89,23 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
-            - name: step_d
+            - name: step_f
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"
+
+
+      - name: step_h
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_f
             - name: step_e
         execution:
           onStart:
